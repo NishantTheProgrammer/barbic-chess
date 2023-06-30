@@ -1,0 +1,13 @@
+body {
+    background-color: black;
+}
+.piece {
+    width: 85%;
+    height: 85%;
+}
+
+.box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
