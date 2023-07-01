@@ -84,7 +84,17 @@ const getPossibleMoves = (x, y) => {
                 }  
             }
             if(selected.piece == 'K') {
-                if(checkKingMove(i, j, x, y)) {
+                if(Math.abs(i - x) <= 1 && Math.abs(j - y) <= 1) {
+                    possiblities.push({ x: i, y: j });
+                }  
+            }
+            if(selected.piece == 'P') {
+                if(checkPawn(i, j, x, y, selected.playerColor)) {
+                    possiblities.push({ x: i, y: j });
+                }  
+            }
+            if(selected.piece == 'N') {
+                if(checkKnight(i, j, x, y)) {
                     possiblities.push({ x: i, y: j });
                 }  
             }
@@ -93,9 +103,23 @@ const getPossibleMoves = (x, y) => {
     return possiblities;
 }
 
-const checkKingMove = (i, j, x, y) => {
-    // return true;
-    if(Math.abs(i - x) <= 1 && Math.abs(j - y) <= 1) return true;
+
+const checkKnight = (i, j, x, y) => {
+    if(x - 1 == i && (y == j - 2 || y == j + 2)) return true;
+    if(x + 1 == i && (y == j - 2 || y == j + 2)) return true;
+    if(x - 2 == i && (y == j - 1 || y == j + 1)) return true;
+    if(x + 2 == i && (y == j - 1 || y == j + 1)) return true;
+}
+
+const checkPawn = (i, j, x, y, playerColor) => {
+    if((x == 1 && playerColor == 'b') || (x == BOARD_SIZE - 2 && playerColor == 'w')) {
+        if(x + (playerColor == 'w' ?  -2 : 2) == i && j == y) return true;
+    }
+    if(x + (playerColor == 'w' ?  -1 : 1) == i && j == y) return true;
+
+    // have bug
+    if(x + (playerColor == 'w' ? -1 : 1)  == i && (y + 1 == j || y - 1 == j) && board[i][j].playerColor == (playerColor == 'b' ? 'w' : 'b')) return true;
+    
 }
 
 const checkMainDigonal = (i, j, x, y) => {
@@ -134,7 +158,8 @@ const loadGame = () => {
         board.push(row);
     }
 
-    board[4][4].piece = 'K';
+    board[4][4].piece = 'N';
+    board[4][4].playerColor = 'w';
     
 }
 
