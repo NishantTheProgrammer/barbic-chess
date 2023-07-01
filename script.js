@@ -10,13 +10,19 @@ let board = [];
 const onSelectCell = (x, y) => {
     console.log(possibleMoves);
     if(selectedX && selectedY) {
-        if( possibleMoves.some(move => move.x == x && move.y == y)) {
+        if(possibleMoves.some(move => move.x == x && move.y == y)) {
             const oldPiece = {...board[selectedX][selectedY]};
             board[selectedX][selectedY].piece = '';
+            if(board[x][y]?.piece != '') {
+                setTimeout(() => {
+                    new Audio(`./sounds/kill.mp3`).play();
+                }, 200);
+            }
             board[x][y] = oldPiece;
             selectedX = null;
             selectedY = null;
             possibleMoves = [];
+            new Audio(`./sounds/${oldPiece.piece}.mp3`).play();
         }
     } else {
         possibleMoves = getPossibleMoves(x, y);
@@ -158,8 +164,8 @@ const loadGame = () => {
         board.push(row);
     }
 
-    board[4][4].piece = 'N';
-    board[4][4].playerColor = 'w';
+    // board[4][4].piece = 'N';
+    // board[4][4].playerColor = 'w';
     
 }
 
