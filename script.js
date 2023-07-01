@@ -10,7 +10,7 @@ let board = [];
 const onSelectCell = (x, y) => {
     console.log(possibleMoves);
     if(selectedX && selectedY) {
-        if(possibleMoves.some(move => move.x == x && move.y == y)) {
+        if( possibleMoves.some(move => move.x == x && move.y == y)) {
             const oldPiece = {...board[selectedX][selectedY]};
             board[selectedX][selectedY].piece = '';
             board[x][y] = oldPiece;
@@ -83,9 +83,19 @@ const getPossibleMoves = (x, y) => {
                     possiblities.push({ x: i, y: j });
                 }  
             }
+            if(selected.piece == 'K') {
+                if(checkKingMove(i, j, x, y)) {
+                    possiblities.push({ x: i, y: j });
+                }  
+            }
         }
     }
     return possiblities;
+}
+
+const checkKingMove = (i, j, x, y) => {
+    // return true;
+    if(Math.abs(i - x) <= 1 && Math.abs(j - y) <= 1) return true;
 }
 
 const checkMainDigonal = (i, j, x, y) => {
@@ -124,7 +134,7 @@ const loadGame = () => {
         board.push(row);
     }
 
-    board[4][4].piece = 'B';
+    board[4][4].piece = 'K';
     
 }
 
