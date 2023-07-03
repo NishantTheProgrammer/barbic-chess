@@ -9,7 +9,7 @@ let board = [];
 
 const onSelectCell = (x, y) => {
     console.log(possibleMoves);
-    if(selectedX && selectedY) {
+    if(selectedX != null && selectedY != null) {
         if(possibleMoves.some(move => move.x == x && move.y == y)) {
             const oldPiece = {...board[selectedX][selectedY]};
             board[selectedX][selectedY].piece = '';
